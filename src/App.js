@@ -78,6 +78,10 @@ function App({tournament}) {
     navigate('/bracket');
   }
 
+  function setWinner() {
+    console.log("Set winner clicked"); 
+  }
+
   return (
     <>
       <NavBar tournamentName={tournamentState.name}></NavBar>
@@ -89,9 +93,14 @@ function App({tournament}) {
             onChangeUser={changeUserInRoster}
             roster={tournamentState.roster} 
             buildBracketFromRoster={buildBracketFromRoster}/>
-        }>
+          }>
         </Route>
-        <Route path="/bracket" element={<BracketRoute />}></Route>
+        <Route path="/bracket" element={
+          <BracketRoute 
+            bracket={tournamentState.bracket}
+            setWinner={setWinner}/>
+          }>
+        </Route>
         <Route path="/results" element={<ResultsRouteView />}></Route>
       </Routes>
     </>

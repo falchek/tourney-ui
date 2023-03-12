@@ -60,8 +60,8 @@ function RosterListItem(user, onNameChange) {
     }
 
     return(
-    <div> 
-        <input key={user.id} value={name} onChange={handleChange}></input>
+    <div key={user.id}> 
+        <input value={name} onChange={handleChange}></input>
     </div>
     )
 }
