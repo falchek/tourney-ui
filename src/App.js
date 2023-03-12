@@ -2,7 +2,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import { HomeRouteView } from './components/HomeRouteView.js';
 import { NavBar } from './components/NavBar.js';
 import { RegisterView } from './components/Registration/RegisterView.js';
-import { BracketRouteView } from './components/BracketRouteView.js';
+import { BracketRoute } from './components/Bracket/BracketRoute.js';
 import { ResultsRouteView } from './components/ResultsRouteView.js';
 import { Tournament } from './model/Tournament.js';
 import { User } from './model/User.js';
@@ -91,7 +91,7 @@ function App({tournament}) {
             buildBracketFromRoster={buildBracketFromRoster}/>
         }>
         </Route>
-        <Route path="/bracket" element={<BracketRouteView />}></Route>
+        <Route path="/bracket" element={<BracketRoute />}></Route>
         <Route path="/results" element={<ResultsRouteView />}></Route>
       </Routes>
     </>
