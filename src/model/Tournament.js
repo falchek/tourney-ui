@@ -1,4 +1,5 @@
 import {cloneDeep, isUndefined} from 'lodash';
+import { Bracket } from './Bracket';
 
 /**
  * Represents a Tournament model, which comprises all of the data entities that a 
@@ -10,10 +11,12 @@ export class Tournament {
     // Fields 
     name;
     roster;
+    bracket;
 
     constructor() {
         this.name = ""; 
         this.roster = [];
+        this.bracket = new Bracket(); 
     }
 
     /**

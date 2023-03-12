@@ -1,7 +1,6 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { HomeRouteView } from './components/HomeRouteView.js';
 import { NavBar } from './components/NavBar.js';
-import './App.css';
 import { RegisterView } from './components/Registration/RegisterView.js';
 import { BracketRouteView } from './components/BracketRouteView.js';
 import { ResultsRouteView } from './components/ResultsRouteView.js';
@@ -9,21 +8,18 @@ import { Tournament } from './model/Tournament.js';
 import { User } from './model/User.js';
 import { v4 as uuid } from 'uuid';
 import { useState } from 'react';
+import './App.css';
+import { Bracket } from './model/Bracket.js';
+import { Round } from './model/Round.js';
 
 /**
  * Creates the app that defines how the rest of these items are run.  
  * @returns App object 
  */
-function App() {
-
-  // TODO: Load this tournament from REST request.  
-  let tournament = new Tournament();
-  tournament.name = "My First Tournament";
-
-  bootstrapTournament(tournament);
-  console.log(tournament);
+function App({tournament}) {
 
   const [tournamentState, setTournament] = useState(tournament);
+  const navigate = useNavigate(); 
 
   /**
    * Adds a user to the Tournament Roster
@@ -50,6 +46,38 @@ function App() {
     setTournament(newState);
   }
 
+  /**
+   * Builds the bracket, and moves us to that nav page. 
+   * This would likely be backend input after the roster is submitted. 
+   */
+  function buildBracketFromRoster() {
+    let newState = tournamentState.clone(); 
+    let bracket = new Bracket(); 
+    bracket.id = uuid(); 
+    
+    let round1 = new Round(); 
+    round1.number = 0; 
+    round1.id = uuid(); 
+
+    // TODO enhance bracket building logic in backend 
+    let roster = tournament.roster;
+    let setTarget = roster.length / 2; // TODO validate even input.
+    let idx = 0;  
+    while (round1.sets.length < setTarget) {
+      let set = new Set();
+      set.id = uuid();  
+      set.user1 = roster[idx];
+      set.user2 = roster[idx +1];
+      round1.sets.push(set); 
+      idx += 2;  
+    }
+    bracket.rounds.push(round1);
+    newState.bracket = bracket;
+    console.log("New tournament state", newState);  
+    setTournament(newState);
+    navigate('/bracket');
+  }
+
   return (
     <>
       <NavBar tournamentName={tournamentState.name}></NavBar>
@@ -59,7 +87,8 @@ function App() {
           <RegisterView
             onRegisterUser={addUserToRoster}
             onChangeUser={changeUserInRoster}
-            roster={tournamentState.roster} />
+            roster={tournamentState.roster} 
+            buildBracketFromRoster={buildBracketFromRoster}/>
         }>
         </Route>
         <Route path="/bracket" element={<BracketRouteView />}></Route>
@@ -71,18 +100,5 @@ function App() {
 
 }
 
-
-function bootstrapTournament(tournament) {
-  // TODO:  Replace with backend call
-  // Build a list of users
-  let userNames = ["Mike", "Julie", "Michael", "Nate", "Liz", "Johni-Ann", "Mang", "Cece"];
-  userNames.map((name) => {
-    let user = new User();
-    user.name = name;
-    user.id = uuid();
-    tournament.addUser(user);
-  });
-
-}
 
 export default App;

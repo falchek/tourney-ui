@@ -28,6 +28,12 @@ function RosterHeader(){
 }
 
 
+/**
+ * List container for the roster  
+ * @param roster - the model of the tournament rost
+ * @param changeUser - a callback function to change the user
+ * @returns Roster list JSX elements  
+ */
 function RosterList({roster, changeUser}) {
    const rosterListItems = roster.map((user) => RosterListItem(user, changeUser))
     
@@ -39,6 +45,12 @@ function RosterList({roster, changeUser}) {
     )
 }
 
+/**
+ * 
+ * @param {User} user - the user for this control
+ * @param onNameChange - callback for when a user's name is changed
+ * @returns JSX Row item.  
+ */
 function RosterListItem(user, onNameChange) {
     let name = user.name
 
@@ -54,6 +66,11 @@ function RosterListItem(user, onNameChange) {
     )
 }
 
+/**
+ * Control to add a new player to the roster
+ * @param onRosterAdd - callback function to return a new player. 
+ * @returns 
+ */
 function RosterAdd({onRosterAdd}) {
     const [newName, setNewName] = React.useState("");
     

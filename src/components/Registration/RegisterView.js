@@ -1,4 +1,5 @@
 import { RosterTable } from "./RosterTable"
+import { BracketBuild } from "./BracketBuild"
 
 /**
  * The Register Route view
@@ -6,7 +7,7 @@ import { RosterTable } from "./RosterTable"
  * @param onRegisterUser - a callback to add a user to a roster
  * @returns Register Route View
  */
-export function RegisterView({roster, onRegisterUser, onChangeUser}) {
+export function RegisterView({roster, onRegisterUser, onChangeUser, buildBracketFromRoster}) {
 
     return (
         <div>
@@ -16,6 +17,11 @@ export function RegisterView({roster, onRegisterUser, onChangeUser}) {
                 changeUser={onChangeUser}
                 onRegisterUser={onRegisterUser}>
             </RosterTable>
+            <br></br>
+            <BracketBuild
+                buildBracketFromRoster={buildBracketFromRoster}>
+            </BracketBuild>
+            
         </div>
     )
 }
